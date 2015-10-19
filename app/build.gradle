@@ -10,7 +10,46 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            moduleName "HelloJNI"
+        }
     }
+    sourceSets.main{
+        jni.srcDirs = []
+        jniLibs.srcDir 'src/main/libs'
+    }
+    productFlavors {
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+        }
+        mips {
+            ndk {
+                abiFilter "mips"
+            }
+        }
+        armv7 {
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+        }
+        arm {
+            ndk {
+                abiFilter "armeabi"
+            }
+        }
+        fat
+    }
+    splits {
+        abi {
+            enable true //enable ABI split feature to create con APK per ABI
+            universalApk true //generate an additional APK that targets all the ABIs
+        }
+    }
+    project.ext.versionCodes = ['armeabi-v7a':1,'x86':2]
+
     buildTypes {
         release {
             minifyEnabled false
